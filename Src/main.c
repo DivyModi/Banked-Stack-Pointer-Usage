@@ -23,9 +23,12 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-int fun_add(int a, int b, int c, int d)
+void swap(int *a, int *b)
 {
-	return a+b+c+d;
+	int swap;
+	swap = *a;
+	*a = *b;
+	*b = swap;
 }
 
 __attribute((naked)) void change_sp_to_psp(void)
@@ -49,10 +52,11 @@ int main(void)
 	printf("Hello World\n");
 	change_sp_to_psp();
 
-	int ret;
-
-	ret = fun_add(1,2,3,4);
-	printf("result = %d\r\n", ret);
+	int a = 3;
+	int b = 5;
+	swap(&a,&b);
+	printf("a = %d\r\n", a);
+	printf("b = %d\r\n", b);
 	generate_exception();
     /* Loop forever */
 	for(;;);
